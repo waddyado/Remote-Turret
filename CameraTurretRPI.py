@@ -9,6 +9,8 @@ def recieve_commands():
         #setup gpio pins
         GPIO.setmode(GPIO.BCM)
         GPIO.setwarnings(False)
+        #GPIO pins 17, 27 are used for X and Y servos
+        #GPIO pin 22 is used for laser, connect positive end to this pin and negative to GND
         GPIO.setup(22,GPIO.OUT)
         GPIO.setup(17, GPIO.OUT)
         GPIO.setup(27, GPIO.OUT)
