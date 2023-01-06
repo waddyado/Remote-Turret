@@ -60,7 +60,7 @@ def udp_serversession(i, x, y):
     
 
     while True:
-                txt = font.render('Security Camera Stream', True, green, blue)
+                txt = font.render('Laser Turret Stream', True, green, blue)
                 textRect = txt.get_rect()
                 textRect.center = (450, 50)
                 scrn.blit(txt, textRect)
