@@ -6,6 +6,7 @@ import threading
 import pygame
 import os
 
+
 changed = False
 pygame.init()
 os.system('cls')
@@ -227,8 +228,7 @@ def main():
               scrn.blit(txt, textRect)
               scrn.blit(txt2, textRec2t)
               scrn.blit(txt3, textRec3t)
-              #scrn.blit(txt_surface, (input_box.x+5, input_box.y+5))
-              #pygame.draw.rect(scrn, color, input_box, 2)
+              
           
 main()
 

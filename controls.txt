@@ -1,0 +1,2 @@
+arrow keys-move camera
+enter-toggle laser

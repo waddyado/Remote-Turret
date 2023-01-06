@@ -5,6 +5,7 @@ import base64
 import threading
 
 def recieve_commands():
+        #recieve command loop
         connected = True
         ADDR = ('192.168.2.72',5000)
         server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -21,9 +22,10 @@ def recieve_commands():
                         print(msg)
                         
 def video_stream():
+        #UDP Video Stream
 
-
-        visual = False
+        visual = False #toggle this to activate cv2 window
+        #UDP socket setup
         BUFF_SIZE = 65536
         client_socket = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
         client_socket.setsockopt(socket.SOL_SOCKET,socket.SO_RCVBUF,BUFF_SIZE)
@@ -33,12 +35,12 @@ def video_stream():
         host_addr = (hostip, port)
         
 
-
+        #cv2 setup
         vid = cv2.VideoCapture(0)
         fps,st,frames_to_count,cnt = (0,0,20,0)
         print(f'[STARTED] Transmitting Video to {hostip}...')
 
-        
+        #UDP frame loop
         while True:
                 WIDTH=400
                 while(vid.isOpened()):
@@ -63,6 +65,8 @@ def video_stream():
                                         pass
                         cnt+=1
 
+
+#Run both functions on separate threads
 
 t1 = threading.Thread(target=video_stream)
 t1.start()

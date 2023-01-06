@@ -6,19 +6,23 @@ import threading
 import RPi.GPIO as GPIO
 
 def recieve_commands():
+        #setup gpio pins
         GPIO.setmode(GPIO.BCM)
         GPIO.setwarnings(False)
         GPIO.setup(22,GPIO.OUT)
         GPIO.setup(17, GPIO.OUT)
         GPIO.setup(27, GPIO.OUT)
+        #conditional variables
         trigger = True
         connected = True
+        #TCP socket setup
         ADDR = ('192.168.2.161',5000)
         server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         server.bind(ADDR)
         server.listen()
         print(f'[INFO] Listening on {ADDR[0]}:{ADDR[1]}\n')
         print(f'[WAITING] Waiting for connections...\n')
+        #PWM servo stuff
         conn, addr = server.accept()
         duty_cyclex = 5
         duty_cycley = 5
@@ -28,6 +32,7 @@ def recieve_commands():
         p2.start(2.5)
         p2.ChangeDutyCycle(duty_cycley)
         p.ChangeDutyCycle(duty_cyclex)
+        #recieve command loop
         with conn:
                 print(f'Connected to {addr[0]}')
                 while True:
@@ -66,10 +71,12 @@ def recieve_commands():
                                 elif trigger == False:
                                    GPIO.output(22,GPIO.HIGH)
                                    trigger = True
+                                   
 def video_stream():
+        #UDP Video Stream
 
-
-        visual = False
+        visual = False #toggle this to activate cv2 window
+        #UDP socket setup
         BUFF_SIZE = 65536
         client_socket = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
         client_socket.setsockopt(socket.SOL_SOCKET,socket.SO_RCVBUF,BUFF_SIZE)
@@ -79,12 +86,12 @@ def video_stream():
         host_addr = (hostip, port)
 
 
-
+        #cv2 setup
         vid = cv2.VideoCapture(-1)
         fps,st,frames_to_count,cnt = (0,0,20,0)
         print(f'[STARTED] Transmitting Video to {hostip}...')
 
-
+        #UDP frame loop
         while True:
                     WIDTH=400
                     while(vid.isOpened()):
@@ -109,6 +116,8 @@ def video_stream():
                                         pass
                         cnt+=1
 
+
+#Run both functions on separate threads
 
 t1 = threading.Thread(target=video_stream)
 t1.start()
